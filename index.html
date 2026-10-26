@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefconHub // Cyber Security Defense & Threat Intelligence Center</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0) 0%,
+                rgba(0, 242, 254, 0.03) 50%,
+                rgba(0, 0, 0, 0.1) 100%
+            );
+            background-size: 100% 4px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col scanline antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 lg:px-8 py-4 flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+            <div class="h-3 w-3 rounded-full bg-cyan-400 animate-ping"></div>
+            <span class="text-xl font-bold tracking-wider text-cyan-400">DEFCON<span class="text-white">HUB</span></span>
+            <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 font-mono">v2.4.0-SECURE</span>
+        </div>
+        <nav class="flex flex-wrap gap-1.5 text-xs">
+            <button onclick="navigateTo('home')" id="btn-home" class="nav-btn px-3 py-1.5 rounded transition bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 font-semibold">Home</button>
+            <button onclick="navigateTo('threats')" id="btn-threats" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">1. Threats</button>
+            <button onclick="navigateTo('password')" id="btn-password" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">2. Pwd Gauge</button>
+            <button onclick="navigateTo('encryptor')" id="btn-encryptor" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">3. Crypto</button>
+            <button onclick="navigateTo('logger')" id="btn-logger" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">4. Incident Log</button>
+            <button onclick="navigateTo('quiz')" id="btn-quiz" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">5. Phishing Quiz</button>
+            <button onclick="navigateTo('hardening')" id="btn-hardening" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">6. Bash Hardening</button>
+            <button onclick="navigateTo('scanner')" id="btn-scanner" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">7. Mock Scanner</button>
+            <button onclick="navigateTo('certs')" id="btn-certs" class="nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent">8. Cert Roadmap</button>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto">
+        
+        <!-- PAGE 0: HOME / DASHBOARD OVERVIEW -->
+        <section id="page-home" class="page-view space-y-6">
+            <div class="p-8 border border-slate-800 bg-slate-900/40 rounded-xl relative overflow-hidden">
+                <div class="absolute right-0 bottom-0 text-[10rem] font-bold text-slate-900/30 select-none pointer-events-none translate-y-12 translate-x-6">ROOT</div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">Cyber Security Defense & Threat Intelligence Hub</h1>
+                <p class="text-slate-400 max-w-3xl leading-relaxed">Welcome to the central node. This enterprise application functions as an active simulation workspace providing sandboxed password complexity analyzers, cryptographic processing matrices, live threat intelligence indexes, and mitigation workflows.</p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <div class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1.5 rounded text-xs flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> SYSTEM STATUS: OPTIMAL
+                    </div>
+                    <div class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded text-xs flex items-center gap-2">
+                        🛡️ MITIGATION ENGINE: READY
+                    </div>
+                    <div class="bg-purple-500/10 text-purple-400 border border-purple-500/20 px-3 py-1.5 rounded text-xs flex items-center gap-2">
+                        🔒 CLIENT-SIDE ISOLATED
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div onclick="navigateTo('threats')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">01 // INTEL</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Threat Directory</h3>
+                    <p class="text-xs text-slate-400 mt-2">Active mapping of volatile ransomware, malware variants, and historical attack vectors.</p>
+                </div>
+                <div onclick="navigateTo('password')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">02 // UTILITY</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Password Gauge</h3>
+                    <p class="text-xs text-slate-400 mt-2">Client-side entropy calculation processing algorithmic complexity benchmarks.</p>
+                </div>
+                <div onclick="navigateTo('encryptor')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">03 // PIPELINE</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Crypto Pipeline</h3>
+                    <p class="text-xs text-slate-400 mt-2">Simulated Symmetric and Asymmetric custom payload cryptographic operations.</p>
+                </div>
+                <div onclick="navigateTo('logger')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">04 // DFIR</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Incident Logger</h3>
+                    <p class="text-xs text-slate-400 mt-2">Persistent framework for cataloging indicators of compromise and mitigation steps.</p>
+                </div>
+                <div onclick="navigateTo('quiz')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">05 // SEC-OPS</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Phishing Quiz Engine</h3>
+                    <p class="text-xs text-slate-400 mt-2">Social engineering defensive assessment testing dynamic threat recognition.</p>
+                </div>
+                <div onclick="navigateTo('hardening')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">06 // REFERENCE</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Linux Hardening</h3>
+                    <p class="text-xs text-slate-400 mt-2">Strategic handbook of immutable production server configuration bash tasks.</p>
+                </div>
+                <div onclick="navigateTo('scanner')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">07 // INFRA</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Mock Port Scanner</h3>
+                    <p class="text-xs text-slate-400 mt-2">Network interface mapping simulation visualizing open listening sockets.</p>
+                </div>
+                <div onclick="navigateTo('certs')" class="p-5 border border-slate-800 bg-slate-900/20 rounded-lg hover:border-cyan-500/40 cursor-pointer transition group">
+                    <div class="text-xs text-cyan-400 mb-1 font-bold">08 // CAREER</div>
+                    <h3 class="text-lg font-bold group-hover:text-cyan-400 transition">Cert Security Map</h3>
+                    <p class="text-xs text-slate-400 mt-2">Professional industry accreditation blueprint with task checklist tracking.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 1: THREATS DIRECTORY -->
+        <section id="page-threats" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">1. Live Ransomware & Malware Directory</h2>
+                <p class="text-slate-400 text-xs">Curated active vectors profiling structural global attack patterns.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 space-y-4">
+                    <input type="text" id="threat-search" oninput="filterThreats()" placeholder="Filter threat signature databases..." class="w-full bg-slate-900 border border-slate-800 rounded p-2.5 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <div id="threat-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="lg:col-span-2 border border-slate-800 bg-slate-900/40 rounded-xl p-6" id="threat-details">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: PASSWORD GAUGE -->
+        <section id="page-password" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">2. Client-Side Password Entropy Gauge</h2>
+                <p class="text-slate-400 text-xs">Analyze structural strength and entropy without data ever leaving your browser buffer.</p>
+            </div>
+            <div class="max-w-2xl bg-slate-900/40 border border-slate-800 rounded-xl p-6 space-y-6">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-2">INPUT TARGET SECRET / PASSPHRASE</label>
+                    <input type="text" id="pass-input" oninput="evaluatePassword()" placeholder="Enter string to evaluate entropy..." class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm font-mono text-cyan-400 focus:outline-none focus:border-cyan-500">
+                </div>
+                
+                <div>
+                    <div class="flex justify-between text-xs mb-2">
+                        <span class="text-slate-400">ENTROPY STRENGTH</span>
+                        <span id="pass-score" class="font-bold text-rose-400">0 BITS</span>
+                    </div>
+                    <div class="w-full bg-slate-950 rounded-full h-3 overflow-hidden border border-slate-800">
+                        <div id="pass-bar" class="bg-rose-500 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                    <div id="chk-len" class="p-2 border border-slate-800 rounded text-slate-500 bg-slate-950/50">12+ Characters</div>
+                    <div id="chk-upper" class="p-2 border border-slate-800 rounded text-slate-500 bg-slate-950/50">Uppercase</div>
+                    <div id="chk-num" class="p-2 border border-slate-800 rounded text-slate-500 bg-slate-950/50">Numbers</div>
+                    <div id="chk-spec" class="p-2 border border-slate-800 rounded text-slate-500 bg-slate-950/50">Special Chars</div>
+                </div>
+
+                <div class="p-4 bg-slate-950 rounded border border-slate-800/80 text-xs space-y-2">
+                    <div class="text-slate-400 font-bold">ESTIMATED TIME TO CRACK (10 Billion Hashes/Sec):</div>
+                    <div id="pass-crack-time" class="text-cyan-400 font-mono text-sm">Instant</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: CRYPTO PIPELINE -->
+        <section id="page-encryptor" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">3. Cryptographic Operations Matrix</h2>
+                <p class="text-slate-400 text-xs">Perform Caesar cipher encodings and Base64 transformation pipelines in client memory.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-cyan-400">CAESAR ROTATION CIPHER</h3>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Plaintext Payload</label>
+                        <textarea id="caesar-input" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white focus:outline-none focus:border-cyan-500" placeholder="Type text here..."></textarea>
+                    </div>
+                    <div class="flex gap-4 items-center">
+                        <label class="text-xs text-slate-400">Shift Offset:</label>
+                        <input type="number" id="caesar-shift" value="3" min="1" max="25" class="w-16 bg-slate-950 border border-slate-800 rounded p-1 text-center text-xs text-cyan-400">
+                        <button onclick="runCaesar(true)" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 rounded text-xs hover:bg-cyan-500/30">Encrypt</button>
+                        <button onclick="runCaesar(false)" class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded text-xs hover:bg-slate-700">Decrypt</button>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Caesar Result</label>
+                        <div id="caesar-output" class="p-3 bg-slate-950 border border-slate-800 rounded text-xs font-mono text-slate-300 min-h-[60px] break-all"></div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-cyan-400">BASE64 / HEX TRANSFORMER</h3>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Input Text</label>
+                        <textarea id="base-input" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white focus:outline-none focus:border-cyan-500" placeholder="Type text or string..."></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runBase64(true)" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 rounded text-xs hover:bg-cyan-500/30">Encode B64</button>
+                        <button onclick="runBase64(false)" class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded text-xs hover:bg-slate-700">Decode B64</button>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Transformation Result</label>
+                        <div id="base-output" class="p-3 bg-slate-950 border border-slate-800 rounded text-xs font-mono text-slate-300 min-h-[60px] break-all"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: INCIDENT LOGGER -->
+        <section id="page-logger" class="page-view hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-1">4. DFIR Incident Log Matrix</h2>
+                    <p class="text-slate-400 text-xs">Maintain digital forensic records locally inside volatile browser state.</p>
+                </div>
+                <button onclick="clearIncidents()" class="text-xs text-rose-400 hover:text-rose-300 underline">Clear All Logs</button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <form id="incident-form" onsubmit="addIncident(event)" class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-cyan-400">Log New Security Event</h3>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Target Host / Identifier</label>
+                        <input type="text" id="inc-host" required placeholder="e.g. prod-db-01.internal" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Severity Level</label>
+                        <select id="inc-sev" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                            <option value="CRITICAL">CRITICAL</option>
+                            <option value="HIGH">HIGH</option>
+                            <option value="MEDIUM">MEDIUM</option>
+                            <option value="LOW">LOW</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Incident Summary</label>
+                        <textarea id="inc-desc" required rows="3" placeholder="Describe detected anomaly or artifact..." class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white focus:outline-none focus:border-cyan-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-cyan-500 text-slate-950 font-bold py-2 rounded text-xs hover:bg-cyan-400 transition">Log Incident Entry</button>
+                </form>
+
+                <div class="lg:col-span-2 border border-slate-800 bg-slate-900/40 rounded-xl p-6">
+                    <h3 class="text-sm font-bold text-white mb-4">Recorded Indicators & Incidents</h3>
+                    <div id="incident-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-1">
+                        <!-- JS populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 5: PHISHING QUIZ -->
+        <section id="page-quiz" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">5. SecOps Phishing & Social Engineering Simulator</h2>
+                <p class="text-slate-400 text-xs">Evaluate your operational awareness against crafted vector simulations.</p>
+            </div>
+            <div id="quiz-container" class="max-w-2xl bg-slate-900/40 border border-slate-800 rounded-xl p-6 space-y-6">
+                <!-- JS Populated -->
+            </div>
+        </section>
+
+        <!-- PAGE 6: BASH HARDENING -->
+        <section id="page-hardening" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">6. Linux Infrastructure Hardening Reference</h2>
+                <p class="text-slate-400 text-xs">Battle-tested bash commands for locking down production server nodes.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5 space-y-2">
+                    <div class="text-xs text-cyan-400 font-bold">01 // SSH HARDENING</div>
+                    <p class="text-xs text-slate-300">Disable root SSH login and default password authentication in <code class="text-cyan-300">/etc/ssh/sshd_config</code>.</p>
+                    <pre class="bg-slate-950 p-3 rounded text-[11px] font-mono text-emerald-400 border border-slate-800 overflow-x-auto">
+sudo sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+sudo systemctl restart sshd</pre>
+                </div>
+
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5 space-y-2">
+                    <div class="text-xs text-cyan-400 font-bold">02 // FIREWALL RULES (UFW)</div>
+                    <p class="text-xs text-slate-300">Default deny incoming policy with limited explicit standard access rules.</p>
+                    <pre class="bg-slate-950 p-3 rounded text-[11px] font-mono text-emerald-400 border border-slate-800 overflow-x-auto">
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp comment 'SSH'
+sudo ufw allow 443/tcp comment 'HTTPS'
+sudo ufw enable</pre>
+                </div>
+
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5 space-y-2">
+                    <div class="text-xs text-cyan-400 font-bold">03 // FILE PERMISSIONS & AUDITING</div>
+                    <p class="text-xs text-slate-300">Secure sensitive authentication storage files against unauthorized reads.</p>
+                    <pre class="bg-slate-950 p-3 rounded text-[11px] font-mono text-emerald-400 border border-slate-800 overflow-x-auto">
+sudo chmod 600 /etc/shadow
+sudo chmod 644 /etc/passwd
+sudo chown root:root /etc/shadow /etc/passwd</pre>
+                </div>
+
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5 space-y-2">
+                    <div class="text-xs text-cyan-400 font-bold">04 // AUTOMATED SECURITY UPDATES</div>
+                    <p class="text-xs text-slate-300">Install unattended upgrades to automatically patch CVE vulnerabilities.</p>
+                    <pre class="bg-slate-950 p-3 rounded text-[11px] font-mono text-emerald-400 border border-slate-800 overflow-x-auto">
+sudo apt update && sudo apt install unattended-upgrades -y
+sudo dpkg-reconfigure --priority=low unattended-upgrades</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 7: MOCK SCANNER -->
+        <section id="page-scanner" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">7. Simulated Port & Socket Recon Scanner</h2>
+                <p class="text-slate-400 text-xs">Simulate non-destructive local host port inspection sequences.</p>
+            </div>
+            <div class="max-w-3xl bg-slate-900/40 border border-slate-800 rounded-xl p-6 space-y-4">
+                <div class="flex gap-3">
+                    <input type="text" id="scan-target" value="127.0.0.1" class="bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white flex-1 focus:outline-none focus:border-cyan-500 font-mono">
+                    <button id="scan-btn" onclick="startScan()" class="bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded text-xs hover:bg-cyan-400">Run Probe</button>
+                </div>
+                
+                <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div id="scan-progress" class="bg-cyan-400 h-full w-0 transition-all duration-200"></div>
+                </div>
+
+                <div id="scan-console" class="bg-slate-950 border border-slate-800 rounded p-4 font-mono text-xs h-64 overflow-y-auto space-y-1">
+                    <div class="text-slate-500">// Ready to initiate scan cycle...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 8: CERTS ROADMAP -->
+        <section id="page-certs" class="page-view hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">8. Cyber Security Accreditation Matrix</h2>
+                <p class="text-slate-400 text-xs">Track professional certification milestones across industry domains.</p>
+            </div>
+            <div id="certs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- JS Populated -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 py-4 px-6 text-center text-xs text-slate-500">
+        DEFCONHUB SECURITY SIMULATION SUITE // ISOLATED ENVIRONMENT // ALL LOGS ARE LOCALLY PERSISTED
+    </footer>
+
+    <!-- Application Script Logic -->
+    <script>
+        // Global Datasets
+        const THREATS_DATA = [
+            { id: 't1', name: 'LockBit 3.0', type: 'Ransomware', risk: 'CRITICAL', vector: 'Compromised RDP Credentials', desc: 'Active Ransomware-as-a-Service operating with double-extortion tactics, exfiltrating data prior to payload execution.', mitigation: 'Enforce MFA across all remote access points, implement immutable backup solutions.' },
+            { id: 't2', name: 'Emotet', type: 'Botnet / Trojan', risk: 'HIGH', vector: 'Phishing Attachments (Macros)', desc: 'Polymorphic banking trojan primarily acting as a distributor for secondary high-impact malware payloads.', mitigation: 'Block execution of macros in office documents originating from outer perimeter sources.' },
+            { id: 't3', name: 'Log4Shell (CVE-2021-44228)', type: 'RCE Vulnerability', risk: 'CRITICAL', vector: 'JNDI Injection Stream', desc: 'Flaw in Apache Log4j library allowing unauthenticated Remote Code Execution via string logging parameters.', mitigation: 'Patch Log4j instance to >= 2.17.0 or set system property log4j2.formatMsgNoLookups=true.' },
+            { id: 't4', name: 'Agent Tesla', type: 'Spyware / Infostealer', risk: 'MEDIUM', vector: 'Malicious Email Attachments', desc: 'Advanced spyware targeting browser credentials, clipboard data, and keystroke logs.', mitigation: 'Implement endpoint threat detection (EDR) and email isolation filters.' }
+        ];
+
+        const QUIZ_DATA = [
+            {
+                q: "You receive an email from 'support@paypaI.com' (with a capital 'I' replacing the 'l') requesting password verification. What is this?",
+                options: ["Legitimate security alert", "Typosquatting Phishing Attempt", "Standard password rotation email", "DNS cache poisoning"],
+                answer: 1,
+                explanation: "The domain uses typosquatting (homograph attack style) replacing lower 'l' with capital 'I' to mimic a legitimate service."
+            },
+            {
+                q: "What is the primary objective of a 'Spear Phishing' campaign?",
+                options: ["Mass automated spam delivery", "Targeted attack on specific individuals/organizations", "Random brute-force credential stuffing", "Overwhelming network bandwidth via UDP floods"],
+                answer: 1,
+                explanation: "Spear phishing specifically crafts tailored communications directed at chosen high-value targets."
+            }
+        ];
+
+        const CERTS_DATA = [
+            { name: "CompTIA Security+", level: "Entry", desc: "Core foundational knowledge in network security and threat management." },
+            { name: "Certified Ethical Hacker (CEH)", level: "Intermediate", desc: "Penetration testing methodologies and threat exploitation vectors." },
+            { name: "OSCP (OffSec Certified Professional)", level: "Advanced", desc: "Hands-on offensive security testing and live machine exploitation." },
+            { name: "CISSP", level: "Expert", desc: "Enterprise architecture, governance, and high-level risk management." }
+        ];
+
+        let incidents = JSON.parse(localStorage.getItem('defcon_incidents') || '[]');
+        let activeThreatId = THREATS_DATA[0].id;
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        // Navigation Engine
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) targetPage.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-3 py-1.5 rounded transition text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent";
+            });
+            const activeBtn = document.getElementById(`btn-${pageId}`);
+            if (activeBtn) {
+                activeBtn.className = "nav-btn px-3 py-1.5 rounded transition bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 font-semibold";
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Threat Directory Logic
+        function renderThreats(filter = '') {
+            const listEl = document.getElementById('threat-list');
+            const filtered = THREATS_DATA.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()) || t.type.toLowerCase().includes(filter.toLowerCase()));
+            
+            listEl.innerHTML = filtered.map(t => `
+                <div onclick="selectThreat('${t.id}')" class="p-3 rounded border ${t.id === activeThreatId ? 'bg-cyan-500/10 border-cyan-500' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'} cursor-pointer transition">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-xs ${t.id === activeThreatId ? 'text-cyan-400' : 'text-white'}">${t.name}</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${t.risk === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">${t.risk}</span>
+                    </div>
+                    <div class="text-[10px] text-slate-400">${t.type}</div>
+                </div>
+            `).join('');
+
+            renderThreatDetails();
+        }
+
+        function selectThreat(id) {
+            activeThreatId = id;
+            renderThreats(document.getElementById('threat-search').value);
+        }
+
+        function renderThreatDetails() {
+            const threat = THREATS_DATA.find(t => t.id === activeThreatId) || THREATS_DATA[0];
+            const detailsEl = document.getElementById('threat-details');
+            detailsEl.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">${threat.name}</h3>
+                            <span class="text-xs text-cyan-400">${threat.type}</span>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 rounded font-bold ${threat.risk === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40' : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'}">${threat.risk} SEVERITY</span>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-slate-400 mb-1">PRIMARY ATTACK VECTOR</div>
+                        <div class="text-xs text-slate-200 bg-slate-950 p-2.5 rounded border border-slate-800 font-mono">${threat.vector}</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-slate-400 mb-1">PROFILE OVERVIEW</div>
+                        <p class="text-xs text-slate-300 leading-relaxed">${threat.desc}</p>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-emerald-400 mb-1">RECOMMENDED MITIGATION</div>
+                        <p class="text-xs text-slate-300 bg-emerald-950/20 border border-emerald-500/20 p-3 rounded leading-relaxed">${threat.mitigation}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterThreats() {
+            const val = document.getElementById('threat-search').value;
+            renderThreats(val);
+        }
+
+        // Password Gauge Engine
+        function evaluatePassword() {
+            const val = document.getElementById('pass-input').value;
+            let score = 0;
+            
+            const hasLen = val.length >= 12;
+            const hasUpper = /[A-Z]/.test(val);
+            const hasNum = /[0-9]/.test(val);
+            const hasSpec = /[^A-Za-z0-9]/.test(val);
+
+            updateCheck('chk-len', hasLen);
+            updateCheck('chk-upper', hasUpper);
+            updateCheck('chk-num', hasNum);
+            updateCheck('chk-spec', hasSpec);
+
+            if (val.length > 0) score += val.length * 4;
+            if (hasUpper) score += 15;
+            if (hasNum) score += 15;
+            if (hasSpec) score += 20;
+
+            score = Math.min(100, score);
+
+            const bar = document.getElementById('pass-bar');
+            const scoreText = document.getElementById('pass-score');
+            const crackTime = document.getElementById('pass-crack-time');
+
+            bar.style.width = score + '%';
+            
+            if (score < 40) {
+                bar.className = 'bg-rose-500 h-full transition-all duration-300';
+                scoreText.className = 'font-bold text-rose-400';
+                scoreText.innerText = `${score} BITS (WEAK)`;
+                crackTime.innerText = 'Instant - Seconds';
+            } else if (score < 75) {
+                bar.className = 'bg-amber-500 h-full transition-all duration-300';
+                scoreText.className = 'font-bold text-amber-400';
+                scoreText.innerText = `${score} BITS (MODERATE)`;
+                crackTime.innerText = '3 Weeks - 2 Years';
+            } else {
+                bar.className = 'bg-emerald-500 h-full transition-all duration-300';
+                scoreText.className = 'font-bold text-emerald-400';
+                scoreText.innerText = `${score} BITS (STRONG)`;
+                crackTime.innerText = '4,000+ Years';
+            }
+        }
+
+        function updateCheck(id, pass) {
+            const el = document.getElementById(id);
+            if (pass) {
+                el.className = 'p-2 border border-emerald-500/30 rounded text-emerald-400 bg-emerald-500/10 font-bold';
+            } else {
+                el.className = 'p-2 border border-slate-800 rounded text-slate-500 bg-slate-950/50';
+            }
+        }
+
+        // Crypto Pipeline Engine
+        function runCaesar(encrypt) {
+            const text = document.getElementById('caesar-input').value;
+            let shift = parseInt(document.getElementById('caesar-shift').value) || 0;
+            if (!encrypt) shift = (26 - shift) % 26;
+
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char.match(/[a-z]/i)) {
+                    const code = text.charCodeAt(i);
+                    if (code >= 65 && code <= 90) {
+                        char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                    }
+                }
+                result += char;
+            }
+            document.getElementById('caesar-output').innerText = result || '// Empty input payload';
+        }
+
+        function runBase64(encode) {
+            const text = document.getElementById('base-input').value;
+            const output = document.getElementById('base-output');
+            try {
+                if (encode) {
+                    output.innerText = btoa(text);
+                } else {
+                    output.innerText = atob(text);
+                }
+            } catch (e) {
+                output.innerText = '[ERROR] Invalid character encoding input stream.';
+            }
+        }
+
+        // DFIR Incident Log Engine
+        function renderIncidents() {
+            const listEl = document.getElementById('incident-list');
+            if (incidents.length === 0) {
+                listEl.innerHTML = `<div class="text-xs text-slate-500 italic">No security incidents cataloged.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = incidents.map((inc, i) => `
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded flex justify-between items-start text-xs">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="font-bold text-cyan-400 font-mono">${inc.host}</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded font-bold ${inc.sev === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400' : 'bg-amber-500/20 text-amber-400'}">${inc.sev}</span>
+                            <span class="text-[10px] text-slate-500">${inc.time}</span>
+                        </div>
+                        <p class="text-slate-300">${inc.desc}</p>
+                    </div>
+                    <button onclick="deleteIncident(${i})" class="text-slate-500 hover:text-rose-400 text-xs ml-2">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function addIncident(e) {
+            e.preventDefault();
+            const host = document.getElementById('inc-host').value;
+            const sev = document.getElementById('inc-sev').value;
+            const desc = document.getElementById('inc-desc').value;
+
+            incidents.unshift({
+                host, sev, desc,
+                time: new Date().toLocaleTimeString()
+            });
+
+            localStorage.setItem('defcon_incidents', JSON.stringify(incidents));
+            document.getElementById('incident-form').reset();
+            renderIncidents();
+        }
+
+        function deleteIncident(index) {
+            incidents.splice(index, 1);
+            localStorage.setItem('defcon_incidents', JSON.stringify(incidents));
+            renderIncidents();
+        }
+
+        function clearIncidents() {
+            incidents = [];
+            localStorage.removeItem('defcon_incidents');
+            renderIncidents();
+        }
+
+        // Quiz Engine
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (currentQuizIndex >= QUIZ_DATA.length) {
+                container.innerHTML = `
+                    <div class="text-center py-6 space-y-4">
+                        <h3 class="text-xl font-bold text-white">Assessment Complete</h3>
+                        <p class="text-xs text-slate-400">Your score: <span class="text-cyan-400 font-bold text-sm">${quizScore} / ${QUIZ_DATA.length}</span></p>
+                        <button onclick="resetQuiz()" class="px-4 py-2 bg-cyan-500 text-slate-950 font-bold rounded text-xs hover:bg-cyan-400">Restart Assessment</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = QUIZ_DATA[currentQuizIndex];
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>QUESTION ${currentQuizIndex + 1} OF ${QUIZ_DATA.length}</span>
+                        <span>SCORE: ${quizScore}</span>
+                    </div>
+                    <p class="text-sm text-white font-medium">${q.q}</p>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, i) => `
+                            <button onclick="answerQuiz(${i})" class="w-full text-left p-3 rounded border border-slate-800 bg-slate-950 hover:border-cyan-500/50 text-xs text-slate-300 transition">${opt}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function answerQuiz(index) {
+            const q = QUIZ_DATA[currentQuizIndex];
+            if (index === q.answer) quizScore++;
+            currentQuizIndex++;
+            renderQuiz();
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            renderQuiz();
+        }
+
+        // Port Scanner Simulation
+        function startScan() {
+            const btn = document.getElementById('scan-btn');
+            const target = document.getElementById('scan-target').value;
+            const consoleEl = document.getElementById('scan-console');
+            const progress = document.getElementById('scan-progress');
+
+            btn.disabled = true;
+            consoleEl.innerHTML = `<div class="text-cyan-400">// Initiating socket probe against target ${target}...</div>`;
+            progress.style.width = '0%';
+
+            const ports = [
+                { port: 21, service: 'FTP', status: 'CLOSED' },
+                { port: 22, service: 'SSH', status: 'OPEN' },
+                { port: 80, service: 'HTTP', status: 'OPEN' },
+                { port: 443, service: 'HTTPS', status: 'OPEN' },
+                { port: 3306, service: 'MYSQL', status: 'FILTERED' },
+                { port: 8080, service: 'HTTP-ALT', status: 'OPEN' }
+            ];
+
+            let step = 0;
+            const interval = setInterval(() => {
+                if (step < ports.length) {
+                    const p = ports[step];
+                    const color = p.status === 'OPEN' ? 'text-emerald-400' : (p.status === 'CLOSED' ? 'text-rose-400' : 'text-amber-400');
+                    consoleEl.innerHTML += `<div class="text-xs flex justify-between"><span>Port ${p.port} (${p.service})</span><span class="${color} font-bold">${p.status}</span></div>`;
+                    consoleEl.scrollTop = consoleEl.scrollHeight;
+                    step++;
+                    progress.style.width = `${(step / ports.length) * 100}%`;
+                } else {
+                    clearInterval(interval);
+                    consoleEl.innerHTML += `<div class="text-cyan-400 mt-2">// Scan complete. 3 Open listening services identified.</div>`;
+                    btn.disabled = false;
+                }
+            }, 400);
+        }
+
+        // Certs Map Logic
+        function renderCerts() {
+            const container = document.getElementById('certs-grid');
+            container.innerHTML = CERTS_DATA.map(c => `
+                <div class="p-4 bg-slate-900/40 border border-slate-800 rounded-xl space-y-2">
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold">${c.level}</span>
+                    <h3 class="text-sm font-bold text-white mt-1">${c.name}</h3>
+                    <p class="text-xs text-slate-400">${c.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize App State
+        window.onload = function() {
+            renderThreats();
+            renderIncidents();
+            renderQuiz();
+            renderCerts();
+        };
+    </script>
+</body>
+</html>
